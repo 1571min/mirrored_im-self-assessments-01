@@ -34,11 +34,22 @@ var Tree = function(value) {
 };
 
 Tree.prototype.addChild = function(child) {
-  // your code here
+  let newChild = new Tree(child);
+  this.children.push(newChild);
 };
+//순회
+//복사
 
 Tree.prototype.map = function(callback) {
-  // your code here
+  let result = new Tree(callback(this.value));
+  let recursive = function(to, from, callback) {
+    for (let i = 0; i < from.children.length; i++) {
+      to.children.push(new Tree(callback(from.children[i].value)));
+      recursive(to.children[i], from.children[i], callback);
+    }
+  };
+  recursive(result, this, callback);
+  return result;
 };
 
 module.exports = Tree;
